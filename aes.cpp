@@ -13,17 +13,14 @@ JNIEXPORT jstring JNICALL Java_com_sl_web_server_code_Aes_version
  * */
 JNIEXPORT jcharArray JNICALL Java_com_sl_web_server_code_Aes_encrypt
         (JNIEnv * env, jobject, jcharArray word, jcharArray key){
-//    return nullptr;
+    // 类型转换
     int wordLength = env->GetArrayLength(word)+1;
     int keyLength = env->GetArrayLength(key)+1;
-
     jboolean isCopy = true;
     jchar* jwordArray = env->GetCharArrayElements(word, &isCopy);
     jchar* jkeyArray = env->GetCharArrayElements(key, &isCopy);
-
     char* wordArray = (char*) malloc(wordLength);
     char* keyArray = (char*) malloc(keyLength);
-
     for (int i = 0; i < wordLength; ++i) {
         wordArray[i] = jwordArray[i];
     }
@@ -33,6 +30,7 @@ JNIEXPORT jcharArray JNICALL Java_com_sl_web_server_code_Aes_encrypt
     }
     keyArray[keyLength-1] = '\0';
 
+    // 加密算法，正向
     char* layer_one = (char*) malloc(wordLength);
     layer_one[wordLength-1] = '\0';
     // 第一层 逐字节 按位异或
